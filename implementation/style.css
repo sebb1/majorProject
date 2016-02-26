@@ -1,0 +1,167 @@
+/**,*:before, *:after{
+	box-sizing: border-box;
+}
+
+#menu.main{
+	background-color: red;
+}
+
+#main{
+	display:none;
+	height: 60%;
+	overflow: auto;
+	margin:auto;
+	position: absolute;
+	top:0;
+	left:0;
+	bottom: 0;
+	right: 0;
+}
+
+#main h1{
+	color: white;
+	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.button{
+	display: block;
+	width:150px;
+	margin: 0 auto;
+	height: 30px;
+	line-height: 30px;
+	border: 1px solid #AA2666;
+	color: white;
+	font-weight: bold;
+	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+	background-color: #FB1886;
+	background-image: -webkit-linear-gradient(bottom, #FB1886 0%, #B30D5D 100%);
+	background-image: linear-gradient(bottom, #FB1886 0%, #B30D5D 100%);
+	border-radius: 5px;
+
+
+}
+
+.button:hover{
+	background-color: #B30D5D;
+	background-image: -webkit-linear-gradient(bottom, #B30D5D 0%, #FB1886 100%);
+	background-image: linear-gradient(bottom, #B30D5D 0%, #FB1886 100%);
+	
+
+}
+
+
+
+
+canvas{
+	padding-left: 0;
+	margin:auto;
+	display: block;
+	border: solid;
+	border-color: blue;
+	border-width: 10px;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: #55b1f6;
+
+}
+
+body{
+	background-color: #0965aa;
+}
+*/
+
+
+body{
+	margin:0;
+	background-color: #e5f8bf;
+}
+
+#mainPage{
+	position: absolute;
+	left: 12%;
+	top: 0;
+	width: 1000px;
+	height:600px;
+
+
+}
+
+#header{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width:1000px;
+	height: 70px;
+	background-color: #ff9d9d;
+	color:#ffb895;
+}
+
+#mainGame{
+	position: absolute;
+	left: 0px;
+	top: 70px;
+	width: 1000px;
+	height:530px;
+	background-color: #6b6b6b;
+	clip: auto;
+	overflow: hidden;
+}
+
+#footer{
+	position: absolute;
+	left: 0;
+	top: 600px;
+	width: 1000px;
+	height: 40px;
+	background-color: #ff9d9d;
+
+}
+.mainBox{
+	position: absolute;
+	left: 300px;
+	top: 85px;
+	height: 460px;
+	width: 320px;
+	background-color: #287777;
+	border-radius: 30px;
+	border: 2px solid #a3d3d3;
+	padding: 20px 50px;
+	color: white;
+	text-align: center;
+	display: none;
+}
+
+.mainBox h2{
+	font-family: verdana;
+	font-size: 28px;
+	color: white;
+	margin: 20px 0 20px;
+}
+
+.buttonPlayGame{
+	font-family: verdana;
+	position: absolute;
+	left: 110px;
+	top: 150px;
+	height: 60px;
+	width: 200px;
+	background-color: #719a20;
+	cursor: pointer;
+	border-radius: 15px;
+	border:2px solid #f66;
+	font-size: 28px;
+	line-height: 60px;
+	font-weight: bold;
+	text-shadow: 0px 1px 1px #f99
+}
+
+.buttonPlayGame:hover{
+	background-color: #d2f194;
+}
+
+#playGame{
+	display: block;
+}

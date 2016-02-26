@@ -1,0 +1,47 @@
+
+<!DOCTYPE HTML>
+<html lang="en">
+
+	<head>
+	<meta charset="UTF-8".>
+	<title>DNA Bubble Shooter</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="js/modernizr.js"></script>
+	<script>
+		Modernizr.load([
+			{
+				load: "//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js",
+				complete: function () {
+					if(!window.jQuery){
+						Modernizr.load("js/jquery-1.11.2.min.js");
+					}
+				}
+			},
+			"js/userInterface.js",
+			{
+			load : "js/main.js",
+			complete: function(){
+				$(function(){
+					var game = new dnaBubbleShooter.playing();
+					game.init();
+				})
+			}
+		}]);
+	</script>
+</head>
+<body>
+  <div id="mainPage">
+	  <div id="header"></div>
+	  <div id="mainGame"></div>
+	  <div id="footer"></div>
+	  <div id="playGame" class="mainBox">
+		  <div id="playGameText">
+			  <h2>Start a new game</h2>
+		  </div>
+		  <div class="buttonPlayGame button">
+			  New Game
+		  </div>
+	  </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+.bubble{
+	position: absoulte;
+	width: 115px;
+	height: 110px;
+	background-image: url("../images/spritesheet.png");
+}
+
+.playerBubble{
+	left: 500px;
+	top: 500px;
+}
+
+.bubble_1{
+	background-position: 0 0;
+}

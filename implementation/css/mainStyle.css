@@ -1,0 +1,130 @@
+body{
+	margin:0;
+	background-color: #e5f8bf;
+}
+
+#mainPage{
+	position: absolute;
+	left: 12%;
+	top: 0;
+	width: 1000px;
+	height:600px;
+
+
+}
+
+#header{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width:1000px;
+	height: 70px;
+	background-color: #ff9d9d;
+	color:#ffb895;
+}
+
+#mainGame{
+	position: absolute;
+	left: 0px;
+	top: 70px;
+	width: 1000px;
+	height:530px;
+	background-color: #6b6b6b;
+	clip: auto;
+	overflow: hidden;
+}
+
+#footer{
+	position: absolute;
+	left: 0;
+	top: 600px;
+	width: 1000px;
+	height: 40px;
+	background-color: #ff9d9d;
+
+}
+.mainBox{
+	position: absolute;
+	left: 150px;
+	top: 100px;
+	height: 300px;
+	width: 600px;
+	background-color: #287777;
+	border-radius: 30px;
+	border: 2px solid #a3d3d3;
+	padding: 20px 50px;
+	color: white;
+	text-align: center;
+	display: none;
+}
+
+.mainBox h2{
+	font-family: verdana;
+	font-size: 28px;
+	color: white;
+	margin: 20px 0 20px;
+}
+
+#playButton{
+	font-family: verdana;
+	color: #fff;
+	position: absolute;
+	left: 250px;
+	top: 100px;
+	/*height: 60px;*/
+	width: 210px;
+	background-color: #719a20;
+	cursor: pointer;
+	border-radius: 15px;
+	border:2px solid #f66;
+	font-size: 28px;
+	line-height: 60px;
+	font-weight: bold;
+	text-shadow: 0px 1px 1px #f99
+}
+
+#playButton:hover{
+	background-color: #d2f194;
+}
+
+#playGame{
+	display: block;
+}
+
+#instructionButton{
+	font-family: verdana;
+	position: absolute;
+	color: #fff;
+	left: 250px;
+	top: 200px;
+	/*height: 60px;*/
+	width: 210px;
+	background-color: #719a20;
+	cursor: pointer;
+	border-radius: 15px;
+	border:2px solid #f66;
+	font-size: 28px;
+	line-height: 60px;
+	font-weight: bold;
+	text-shadow: 0px 1px 1px #f99
+
+}
+
+#instructionButton:hover{
+	background-color: #d2f194;
+
+}
+
+#gameArea{
+	position: absolute;
+	left:0px;
+	top: 0px;
+	width:1000px;
+	height: 530px;
+}
+
+#gameCanvas{
+	left: 0px;
+	top: 0px;
+
+}

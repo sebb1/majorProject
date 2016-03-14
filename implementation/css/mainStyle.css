@@ -128,3 +128,34 @@ body{
 	top: 0px;
 
 }
+
+
+	
+}
+
+ul {
+    list-style-type: none;
+}
+
+li {
+    display: inline;
+    color: white;
+    font-family: verdana;
+    
+
+}
+
+
+
+#triplet{
+	float: left;
+	font-size: 24px;
+	font-weight: bold;
+}
+ #points{
+ 	float: right;
+ 	
+ 	font-size: 24px;
+	font-weight: bold;
+
+ }

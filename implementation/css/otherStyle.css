@@ -1,0 +1,14 @@
+ #lookupCanvas{
+	background-color: #6b6b6b;
+	position: absolute;
+	top:30px;
+	left:1030px;
+
+}
+
+#animationCanvas{
+	background-color:black;
+	position: absolute;
+	top:350px;
+	left:1030px;
+}

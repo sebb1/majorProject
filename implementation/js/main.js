@@ -4,8 +4,6 @@ var ctx = canvas.getContext("2d");
 var centerWidth = canvas.width/2;
 var centerHeight = canvas.height/2;
 
-var aminoAcid = ["lysine", "asparagine", "threonine", "arginine", "serine", "methionine", "isoleucine", "glutamine"];//, "histidine", "proline", "leucine", "glutaminc acid", "aspartic acid", "alanine", "glycine", "valine", "tyrosine", "serine", "cysteine", "tryptophan", "leucine", "phenylalanine"];
-var randomAminoAcid = aminoAcid[Math.floor(Math.random()*aminoAcid.length)];
 console.log(randomAminoAcid);
 
 var Images = [];
@@ -20,40 +18,27 @@ var dropSpeed = 0.5;
 var startingPosY = 480;
 var startingPosX = centerWidth-30;
 var bubbleSize = 50;
-var dx = 5;
-var dy = -5;
 
-//var speed = 5;
 
 var startPointerPointX = centerWidth;
 var startPointerPointY = canvas.height;
-var endPointerPointX = centerWidth;
-var endPointerPointY = canvas.height-100;
+var angle = 0;
+var playerAngle = 0;
+var bubbleAngle = 0;
+
+var canvasOffset = $("#gameCanvas").offset();
+var offsetX = canvasOffset.left;
+var offsetY = canvasOffset.top;
 
 
-var pointer = true;
-/*
-var x = 500;
-var y =480;
-var endX = 75;
-var endY = 75;
-var angle = 270;
-var dlt = 2;
-*/
+var points;
 
-var bubbleShot = false;
 
+var collision = false;
 
 
 var gameOver = false;
 
-var aimX;
-var aimY;
-
-var xSpeed = 5;
-var ySpeed = 3;
-
-var rect = canvas.getBoundingClientRect();
 
 var requestAnimationFrame = window.requestAnimationFrame
  || window.mozRequestAnimationFrame || 
@@ -63,12 +48,12 @@ var requestAnimationFrame = window.requestAnimationFrame
 
 
 
-function radToDeg(){
-	return angle *= (180/Math.PI);
+function radToDeg(angle){
+	return angle * (180/Math.PI);
 }
 
-function degToRad(){
-	return angle *= (Math.PI/180);
+function degToRad(angle){
+	return angle * (Math.PI/180);
 }
 
 
@@ -76,15 +61,17 @@ function degToRad(){
 $(document).ready(function (){
 	$("button").click(function(){
 		$(".mainBox").fadeToggle();
-		//refresh();	
+		
 		
 
 		
 
 	init();
+	drawTable();
 
 
 	});
+
 });
 
 
@@ -106,339 +93,209 @@ function loadRow(paths){
 }
 loadRow(["images/uracil.png","images/adenine.png", "images/cytosine.png","images/guanine.png"]);
 
-function drawLysineRow(){
-	ctx.drawImage(Images[0], 1,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 1+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 51+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 101+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 151+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 201+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 251+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 301+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 351+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 401+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 451+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 501+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 551+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 601+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 651+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 701+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 751+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 801+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 851+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 901+bubbleSize,rowTop,bubbleSize,bubbleSize);
-}
 
-function drawAspargineRow(){
-	ctx.drawImage(Images[2], 1,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 1+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 51+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 101+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 151+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 201+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 251+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 301+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 351+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 401+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 451+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 501+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 551+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 601+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 651+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 701+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 751+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 801+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 851+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 901+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	
-}
-
-function drawThreonineRow(){
-	ctx.drawImage(Images[0], 1,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 1+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 51+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 101+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 151+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 201+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 251+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 301+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 351+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 401+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 451+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 501+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 551+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 601+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 651+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 701+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 751+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 801+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 851+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 901+bubbleSize,rowTop,bubbleSize,bubbleSize);
-}
-
-function drawArginineRow(){
-	ctx.drawImage(Images[2], 1,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 1+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 51+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 101+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 151+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 201+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 251+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 301+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 351+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 401+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 451+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 501+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 551+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 601+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 651+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 701+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 751+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 801+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 851+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 901+bubbleSize,rowTop,bubbleSize,bubbleSize);
-}
-
-function drawSerineRow(){
-	ctx.drawImage(Images[0], 1,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 1+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 51+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 101+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 151+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 201+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 251+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 301+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 351+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 401+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 451+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 501+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 551+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 601+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 651+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 701+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 751+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 801+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 851+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 901+bubbleSize,rowTop,bubbleSize,bubbleSize);
-}
-
-function drawMethionineRow(){
-	ctx.drawImage(Images[3], 1,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 1+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 51+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 101+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 151+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 201+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 251+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 301+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 351+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 401+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 451+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 501+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 551+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 601+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 651+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 701+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 751+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 801+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 851+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 901+bubbleSize,rowTop,bubbleSize,bubbleSize);
-}
-
-function drawIsoleucineRow(){
-	ctx.drawImage(Images[2], 1,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 1+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 51+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 101+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 151+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 201+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 251+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 301+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 351+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 401+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 451+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 501+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 551+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 601+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 651+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 701+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 751+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 801+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 851+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 901+bubbleSize,rowTop,bubbleSize,bubbleSize);
-}
-
-function drawGlutamineRow(){
-	ctx.drawImage(Images[0], 1,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 1+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 51+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 101+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 151+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 201+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 251+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 301+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 351+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 401+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 451+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 501+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 551+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 601+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 651+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 701+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[1], 751+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[0], 801+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[2], 851+bubbleSize,rowTop,bubbleSize,bubbleSize);
-	ctx.drawImage(Images[3], 901+bubbleSize,rowTop,bubbleSize,bubbleSize);
-}
-
-function drawAminoRows(image,x,y,width,height){
-	if(randomAminoAcid == "lysine"){
-		console.log("WORKING FOR lysine");
-		drawLysineRow();
-	}else if (randomAminoAcid == "asparagine"){
-		console.log("WORKING FOR asparagine");
-		drawAspargineRow();
-	}else if(randomAminoAcid == "threonine"){
-		console.log("WORKING FOR threonine");
-		drawThreonineRow();
-	}else if(randomAminoAcid == "arginine"){
-		console.log("WORKING FOR arginine");
-		drawArginineRow();
-	}else if(randomAminoAcid == "serine"){
-		console.log("WORKING FOR serine");
-		drawSerineRow();
-	}else if(randomAminoAcid == "methionine"){
-		console.log("WORKING FOR methionine");
-		drawMethionineRow();
-	}else if(randomAminoAcid == "isoleucine"){
-		console.log("WORKING FOR isoleucine");
-		drawIsoleucineRow();
-	}else if(randomAminoAcid == "glutamine"){
-		console.log("WORKING FOR glutamine");
-		drawGlutamineRow();
-	}else{
-		console.log("row not available!");
-	}
-
-	
-}
-
-function drawLysinePlayer(image,x,y,width,height){
-	ctx.drawImage(Images[1],startingPosX,startingPosY,bubbleSize,bubbleSize);
-
-}
-
-function drawAsparaginePlayer(){
-	ctx.drawImage(Images[2],startingPosX,startingPosY,bubbleSize,bubbleSize);
-}
-
-function drawThreoninePlayer(){
-	ctx.drawImage(Images[0],startingPosX,startingPosY,bubbleSize,bubbleSize);
-}
-
-function drawArgininePlayer(){
-	ctx.drawImage(Images[3],startingPosX,startingPosY,bubbleSize,bubbleSize);
-
-}
-
-function drawSerinePlayer(){
-	ctx.drawImage(Images[2],startingPosX,startingPosY,bubbleSize,bubbleSize);
-
-}
-
-function drawMethioninePlayer(){
-	ctx.drawImage(Images[1],startingPosX,startingPosY,bubbleSize,bubbleSize);
-
-}
-
-function drawIsoleucinePlayer(){
-	ctx.drawImage(Images[2],startingPosX,startingPosY,bubbleSize,bubbleSize);
-
-}
-
-function drawGlutaminePlayer(){
-	ctx.drawImage(Images[1],startingPosX,startingPosY,bubbleSize,bubbleSize);
-
-}
-
-function drawPlayersBubble(image,x,y,width,height){
-	if(randomAminoAcid == "lysine"){
-		console.log("ALSO WORKING FOR lysine");
-		drawLysinePlayer();
-	}else if(randomAminoAcid == "asparagine"){
-		console.log("ALSO WOKRING FOR asparagine");
-		drawAsparaginePlayer();
-	}else if(randomAminoAcid == "threonine"){
-		console.log("ALSO WOKRING FOR threonine");
-		drawThreoninePlayer();
-	}else if(randomAminoAcid == "arginine"){
-		console.log("ALSO WOKRING FOR arginine");
-		drawArgininePlayer();
-	}else if(randomAminoAcid == "serine"){
-		console.log("ALSO WOKRING FOR serine");
-		drawSerinePlayer();
-	}else if(randomAminoAcid == "methionine"){
-		console.log("ALSO WOKRING FOR methionine");
-		drawMethioninePlayer();
-	}else if(randomAminoAcid == "isoleucine"){
-		console.log("ALSO WOKRING FOR isoleucine");
-		drawIsoleucinePlayer();
-	}else if(randomAminoAcid == "glutamine"){
-		console.log("ALSO WOKRING FOR glutamine");
-		drawGlutaminePlayer();
-	}else{
-		console.log("player not available");
-	}
-
-}
-/*
-function drawBubble(image,x,y,width,height){
-	//ctx.clearRect(0,0,canvas.width,canvas.height);
-	ctx.drawImage(Images[0],startingPosX,startingPosY,bubbleSize,bubbleSize);
-}
-*/
 
 function init(){
 document.getElementById("triplet").innerHTML = "Amino-Acid: " + randomAminoAcid;
 document.getElementById("points").innerHTML = "Score: " + score;
-	
-
+canvas.addEventListener("mousemove", onMouseMove);
+canvas.addEventListener("mousedown", onMouseDown);
 (function renderFrame(){
 	refresh();
 	dropRow();
 	requestAnimationFrame(renderFrame);
 
-		
 }());
+		
+
+function refresh(){
+	ctx.clearRect(0,0, canvas.width,canvas.height);		
+	drawPlayersBubble();
+	drawAminoRows();
+	drawPointer();
+
+}
+
+
+
+
+
+
+}
+
+function onMouseMove(e){
+	var pos = getMousePos(canvas, e);
+
+	var mouseAngle = radToDeg(Math.atan2((startingPosY+bubbleSize/2) - pos.y, pos.x - (startingPosX + bubbleSize/2)));
+
+	if (mouseAngle < 0){
+		mouseAngle = 180 + (180 + mouseAngle);
+	}
+
+	var lbound = 25;
+	var ubound = 155;
+
+	if (mouseAngle > 90 && mouseAngle < 270){
+		if (mouseAngle > ubound){
+			mouseAngle = ubound;
+		}
+		
+	}else {
+		if (mouseAngle < lbound ||mouseAngle >=270){
+			mouseAngle = lbound;
+		}
+	}
+
+	playerAngle = mouseAngle;
+	
+}
+function drawPointer(){
+	ctx.lineWidth  = 10;
+	ctx.lineCap = "round";
+	ctx.strokeStyle ="#FFFFFF";
+	ctx.beginPath();
+	ctx.moveTo(startingPosX + (bubbleSize/2), startingPosY-5);
+	ctx.lineTo(centerWidth + 1.5 * bubbleSize * Math.cos(degToRad(playerAngle)), centerWidth - 1.5*bubbleSize * Math.sin(degToRad(playerAngle)));
+	ctx.stroke();
+}
+
+
+function getMousePos(canvas, e){
+	
+	var rect = canvas.getBoundingClientRect();
+
+	return{
+		x: Math.round((e.clientX - rect.left) / (rect.right - rect.left) * canvas.width),
+		y: Math.round((e.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height)
+	};
+}
+
+function onMouseDown(e){
+	var pos = getMousePos(canvas, e);
+	shootBubble();
+}
+function shootBubble(){
+	bubbleAngle = playerAngle;
+	startingPosX += 3 * Math.cos(degToRad(bubbleAngle));
+	startingPosY += 3 * -1 * Math.sin(degToRad(bubbleAngle));
+
+	console.log(startingPosX);
+	console.log(startingPosY);
+	requestAnimationFrame(shootBubble);
+
+	
+}
+
+
+
+/*--------CODE TO BE USED LATER------------
 $(document).keydown(function (e){
 
 	console.log(e.keyCode);
 	switch(e.keyCode){
-		case 32:
-		shootBubble();
+		case 39:
+		circle.angle += ball.speed;
 
 		break;
 	}
+	switch(e.keyCode){
+		case 37:
+		circle.angle -= ball.speed;
+	}
+	switch(e.keyCode){
+		case 32:
+		shootBubble();
+	}
+});
+function shootBubble() {
+	console.log(playerAngle);
+
+
+	var shootX = playerAngle;
+	var shootY = playerAngle;
+
+
+	shootX ++;
+	shootY --;
+	startingPosX = shootX;
+	startingPosY = shootY;
+	
+	//requestAnimationFrame(shootBubble);
+
+	if (startingPosX < 0 || startingPosX+bubbleSize > canvas.width) {
+		shootSpeed = -shootSpeed;
+	}
+	
+
+
+}
+function animate(){
+	var point = points[currentFrame++];
+	draw(point.x, point.y);
+
+	if (currentFrame < points.length) {
+		timer = setTimeout(animate, 1000/60);
+	}
+
+}
+
+function linePoints(x1, y1, x2, y2, frames){
+	var sx = x2 - x1;
+	var sy = y2 - y1;
+	var length = Math.sqrt(sx * sx + dy * dy);
+	var incrementX = sx / frames;
+	var incrementY = sy / frames;
+	var a = new Array();
+
+	a.push({
+		x:x1,
+		y:y1
+	});
+	for (var frame = 0; frame < frame - 1; frame++){
+		a.push({
+			x: x1 + (incrementX * frame),
+			y: y1 + (incrementY * frame)
+		});
+	}
+	a.push({
+		x: x2,
+		y: y2
+	});
+	return (a);
+
+}
+
+function draw(x, y) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+    ctx.fillStyle = "skyblue";
+    ctx.strokeStyle = "gray";
+    ctx.rect(x, y, 30, 20);
+    ctx.fill();
+    ctx.stroke();
+}
+
+
+function handleMouseDown(e){
+	mouseX = parseInt(e.clientX - offsetX);
+	mouseY = parseInt(e.clientY - offsetY);
+
+
+	points = linePoints(currentX, currentY, mouseX, mouseY, frameCount);
+	currentFrame = 0;
+	currentX = mouseX;
+	currentY = mouseY;
+	animate();
+
+
+}
+
+$("#gameCanvas").mousedown(function(e){
+	handleMouseDown(e);
 });
 
-function refresh(){
-	ctx.clearRect(0,0, canvas.width,canvas.height);		
-	//drawRow();
-	drawPlayersBubble();
-	drawAminoRows();
-	
-}
 
-function dropRow(){
-	rowTop += dropSpeed;
-
-	if((rowTop+bubbleSize) > canvas.height){
-			rowTop = canvas.height - bubbleSize;
-		}
-}
-
-}
-
+	draw(10,10);
 function shootBubble(){
 	
 
@@ -459,22 +316,8 @@ function shootBubble(){
 	
 }
 
- 
-function getMousePos(canvas, evt) {
-return {
-  x: Math.round((evt.clientX-rect.left)/(rect.right-rect.left)*canvas.width),
-  y: Math.round((evt.clientY-rect.top)/(rect.bottom-rect.top)*canvas.height)
-};
-}
 
 
-canvas.addEventListener('mousemove', function(evt) {
-var mousePos = getMousePos(canvas, evt);
-var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
-//console.log(getMousePos(canvas,evt));
-}, false);
-
-/*--------CODE TO BE USED LATER------------
 var randomImage1 = Math.floor(Math.random() * 4);
 var randomImage2 = Math.floor(Math.random() * 4);
 var randomImage3 = Math.floor(Math.random() * 4);

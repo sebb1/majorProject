@@ -6,7 +6,7 @@
 	<meta charset="UTF-8".>
 	<title>DNA Bubble Shooter</title>
 	<link rel="stylesheet" type="text/css" href="css/mainStyle.css">
-	
+	<link rel="stylesheet" type="text/css" href="css/otherStyle.css">
 </head>
 <body>
   <div id="mainPage">
@@ -21,7 +21,7 @@
 	  <div id="mainGame">
 	  
 	  		<canvas id="gameCanvas" width="1000px" height="530px">
-	  			Your browser does not support the  HTML5 canvas tag.
+	  			Your browser does not support the HTML5 canvas tag.
 	  		</canvas>
 	  	
 	  </div>
@@ -38,9 +38,23 @@
 		  </div>
 	  </div>
   </div>
+  <div id = "sidePage">
+  	
+	  		<canvas id="lookupCanvas" width = "320px" height="250px">
+	  			Your browser does not support the HTML5 canvas tag.
+  			</canvas>
+  	
+  </div>
+
+  <div>
+  	<canvas id = "animationCanvas" width="320px" height="250px">
+  		Your browser does not support the HTML5 canvas tag.
+  		</canvas>
+  </div>
 </body>
 	<script src="js/jquery-1.11.2.min.js"></script>
+	<script src="js/lookup.js"></script>
+	<script src="js/row-and-player.js"></script>
+	<script src="js/animation.js"></script>
 	<script src="js/main.js"></script>
-	<!--<script src="js/userInterface.js"></script>
-	<script src="js/bubble.js"></script>-->
 </html>
